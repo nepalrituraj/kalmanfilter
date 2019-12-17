@@ -1,21 +1,17 @@
-cmake_minimum_required(	VERSION 3.15)
+cmake_minimum_required( VERSION "3.15.0")
+project("kalman")
 
-#SET PROJECT NAME
-project(kalman VERSION 1.0)
-
-#Add Library
-add_library(kalman.cpp kalman.h)
-
-#Add Subdirectory
-#add_subdirectory(boost)
-
-add_executibles(main.cpp)
+find_package(Boost 1.71.0 REQUIRED)
+if(Boost_FOUND)
+  include_directories(${Boost_INCLUDE_DIRS})
+  #add_executable(foo foo.cc)
+endif()
 
 
-#SPECIFY THE C++ STANDARD
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+add_executable("${PROJECT_NAME}" "kalman/main.cpp" "kalman/kalman_2D.cpp" "kalman/kalman_2D.hpp")
 
-target_include_directories(kalman PUBLIC "${PROJECT_BINARY_DIR}}"
-"${PROJECT_BINARY_DIR}}/boost")
+
+
+install (TARGETS "${PROJECT_NAME}" DESTINATION bin)  
+install ( FILES "main.cpp" DESTINATION src ) 
 
